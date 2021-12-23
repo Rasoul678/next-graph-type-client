@@ -1,6 +1,7 @@
 import { Flex, useColorMode } from "@chakra-ui/react";
+import NavBar from "./NavBar";
 
-const Container = (props) => {
+const Container = (props: any) => {
   const { colorMode } = useColorMode();
 
   const bgColor = { light: "gray.50", dark: "gray.900" };
@@ -14,7 +15,10 @@ const Container = (props) => {
       bg={bgColor[colorMode]}
       color={color[colorMode]}
       {...props}
-    />
+    >
+      <NavBar />
+      {props.children}
+    </Flex>
   );
 };
 
