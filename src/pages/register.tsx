@@ -1,4 +1,4 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Heading } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { useRouter } from "next/router";
 import InputField from "../components/InputField";
@@ -14,10 +14,13 @@ const Register: React.FC<RegisterProps> = ({}) => {
 
   return (
     <Wrapper variant="small">
+      <Heading textAlign="center" mb={5} color="teal.200">
+        Register
+      </Heading>
       <Formik
-        initialValues={{ username: "", password: "" }}
+        initialValues={{ username: "", password: "", email: "" }}
         onSubmit={async (values, { setErrors }) => {
-          const response = await register(values);
+          const response = await register({ input: values });
           if (response.data?.register.errors) {
             setErrors(toErrorMap(response.data.register.errors));
           } else if (response.data?.register.user) {
@@ -32,7 +35,16 @@ const Register: React.FC<RegisterProps> = ({}) => {
               placeholder="username"
               label="Username"
             />
-            <Box mt={4}>
+            <Box mt={5}>
+              <InputField
+                name="email"
+                placeholder="email"
+                label="Email"
+                type="email"
+              />
+            </Box>
+
+            <Box mt={5}>
               <InputField
                 name="password"
                 placeholder="password"

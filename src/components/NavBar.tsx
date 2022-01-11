@@ -7,8 +7,10 @@ interface NavBarProps {}
 
 const NavBar: React.FC<NavBarProps> = ({}) => {
   const [{ data, fetching }] = useMeQuery({
-    pause: isServer()
+    //! We can cancel ssr query by making this true.
+    pause: isServer() //! See if we are in browser or in server side.
   });
+
   const [{ fetching: logoutFetching }, logout] = useLogoutMutation();
 
   let child;

@@ -33,3 +33,33 @@ Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&ut
 Chakra has supported Gradients and RTL in `v1.1`. To utilize RTL, [add RTL direction and swap](https://chakra-ui.com/docs/features/rtl-support).
 
 If you don't have multi-direction app, you should make `<Html lang="ar" dir="rtl">` inside `_document.js`.
+
+# Development steps
+- `yarn add urql graphql`
+- add fetch options to graphql client and set `credentials` to  `"include"`, this will send the cookie on request.
+- solve `CORS` issue on the server side.
+- add `graphql code generator`
+    - `yarn add -D @graphql-codegen/cli`
+- `initialize` code generator
+    - `yarn graphql-codegen init`
+- substitute `typescript-react-apollo` with `typescript-urql`
+    - `yarn add -D @graphql-codegen/typescript-urql`
+- add utility for handling errors comming from graphql server.
+- add `register` and `login` pages
+- use `Graphcache` for updating cache
+    - `yarn add @urql/exchange-graphcache`
+- update `me` query on `register` and `login` mutations
+- add `fragments` to prevent duplications in graphql files
+- add `logout` and `update the cache`
+- add `server side rendering` (`ssr`) with graphql and urql
+    - `yarn add next-urql`
+    - `yarn add react-is`
+    - `yarn add isomorphic-unfetch`
+- wrap pages into `withUrqlClient` HOC
+- `ssr` workflow
+    - `me` ==> `browser` http://localhost:3000
+    - `browser` ==> `next.js `server
+    - `next.js` ==> request `graphql` server http://localhost:4000
+    - `next.js` builds `HTML` with fetched `data` and send back to the `browser`
+    - `next.js hint` => after loading a page ssr (initial render) and after that pages render client side(client side routing system)
+- add `change password` page

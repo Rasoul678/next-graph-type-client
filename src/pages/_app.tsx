@@ -10,7 +10,7 @@ const MyApp = ({ Component, pageProps }: any) => {
     <ChakraProvider resetCSS theme={theme}>
       <ColorModeProvider
         options={{
-          useSystemColorMode: true,
+          useSystemColorMode: false,
         }}
       >
         <Container height="100vh">
