@@ -13,7 +13,7 @@ const MyApp = ({ Component, pageProps }: any) => {
           useSystemColorMode: false,
         }}
       >
-        <Container height="100vh">
+        <Container height="auto" minHeight='100vh'>
           <Component {...pageProps} />
           <DarkModeSwitch />
         </Container>
