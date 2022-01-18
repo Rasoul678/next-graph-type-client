@@ -7,7 +7,7 @@ import { createUrqlClient } from "../utils/createUrqlClient";
 
 const Index = () => {
   const [variables, setVariables] = useState({
-    limit: 33,
+    limit: 10,
     cursor: null as null | string,
   });
 
@@ -43,7 +43,14 @@ const Index = () => {
               borderRadius={10}
               key={post.id}
             >
-              <Heading fontSize="xl">{post.title}</Heading>
+              <Box>
+                <Heading maxW="80%" fontSize="xl">
+                  {post.title}
+                </Heading>
+                <Flex gap={1}>
+                  posted by: <Text color="coral"> {post.creator.username}</Text>
+                </Flex>
+              </Box>
               <Text mt={4}>{post.textSnippet}</Text>
             </Box>
           ))}
@@ -53,10 +60,16 @@ const Index = () => {
       )}
       {data && data.posts.hasMore && (
         <Box textAlign="center" my={5}>
-          <Button onClick={() => setVariables({
-            limit: variables.limit,
-            cursor: data.posts.posts[data.posts.posts.length - 1].createdAt,
-          })} isLoading={fetching} size="sm">
+          <Button
+            onClick={() =>
+              setVariables({
+                limit: variables.limit,
+                cursor: data.posts.posts[data.posts.posts.length - 1].createdAt,
+              })
+            }
+            isLoading={fetching}
+            size="sm"
+          >
             show more
           </Button>
         </Box>
