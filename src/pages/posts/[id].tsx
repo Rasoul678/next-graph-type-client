@@ -23,7 +23,7 @@ const Post: React.FC<PostProps> = ({}) => {
   }
 
   if (!data?.post) {
-    return <Box>Post Not Found!!!</Box>;
+    return <Box>Could not find post :\</Box>;
   }
 
   return (
