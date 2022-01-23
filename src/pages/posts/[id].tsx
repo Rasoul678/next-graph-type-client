@@ -1,6 +1,7 @@
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
+import EditDeletePostButtons from "../../components/EditDeletePostButtons";
 import { usePostQuery } from "../../generated/graphql";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 
@@ -27,9 +28,12 @@ const Post: React.FC<PostProps> = ({}) => {
   }
 
   return (
-    <Box>
-      <Heading>{data?.post?.title}</Heading>
-      {data?.post?.text}
+    <Box width='800px'>
+      <Flex alignItems="center" justifyContent="space-between">
+        <Heading>{data?.post?.title}</Heading>
+        <EditDeletePostButtons id={postId} creatorId={data.post.creatorId} />
+      </Flex>
+      <Text mt={5}>{data?.post?.text}</Text>
     </Box>
   );
 };
