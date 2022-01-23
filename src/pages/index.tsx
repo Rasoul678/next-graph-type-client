@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Box, Button, Flex, Heading, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Stack,
+  Text,
+  Link,
+} from "@chakra-ui/react";
 import NextLink from "next/link";
 import { withUrqlClient } from "next-urql";
 import { usePostsQuery } from "../generated/graphql";
@@ -46,9 +54,11 @@ const Index = () => {
             >
               <UpvoteSection post={post} />
               <Box>
-                <Heading maxW="80%" fontSize="xl">
-                  {post.title}
-                </Heading>
+                <Link>
+                  <NextLink href="/posts/[id]" as={`/posts/${post.id}`}>
+                    <Heading fontSize="xl">{post.title}</Heading>
+                  </NextLink>
+                </Link>
                 <Flex gap={1}>
                   posted by: <Text color="coral"> {post.creator.username}</Text>
                 </Flex>

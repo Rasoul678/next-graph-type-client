@@ -63,3 +63,5 @@ If you don't have multi-direction app, you should make `<Html lang="ar" dir="rtl
     - `next.js` builds `HTML` with fetched `data` and send back to the `browser`
     - `next.js hint` => after loading a page ssr (initial render) and after that pages render client side(client side routing system)
 - add `change password` page
+- add upvote and downvote
+- send `cookie` to `next.js` server for ssr `request` for `auth` user

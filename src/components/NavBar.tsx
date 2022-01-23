@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Link } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Link } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
 import { isServer } from "../utils/isServer";
@@ -8,7 +8,7 @@ interface NavBarProps {}
 const NavBar: React.FC<NavBarProps> = ({}) => {
   const [{ data, fetching }] = useMeQuery({
     //! We can cancel ssr query by making this true.
-    pause: isServer() //! See if we are in browser or in server side.
+    pause: isServer(), //! See if we are in browser or in server side.
   });
 
   const [{ fetching: logoutFetching }, logout] = useLogoutMutation();
@@ -48,6 +48,11 @@ const NavBar: React.FC<NavBarProps> = ({}) => {
 
   return (
     <Flex width="100%" p="4">
+      <Link>
+        <NextLink href="/">
+          <Heading>NextGraphQl</Heading>
+        </NextLink>
+      </Link>
       <Box ml="auto">{child}</Box>
     </Flex>
   );
