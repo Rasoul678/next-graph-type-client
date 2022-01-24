@@ -5,6 +5,7 @@ import Wrapper from "../components/Wrapper";
 import NextLink from "next/link";
 import { useForgotPasswordMutation } from "../generated/graphql";
 import { useState } from "react";
+import withApollo from "../utils/withApollo";
 
 interface ForgotPasswordProps {}
 
@@ -57,4 +58,4 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({}) => {
   );
 };
 
-export default ForgotPassword;
+export default withApollo({ ssr: false })(ForgotPassword);

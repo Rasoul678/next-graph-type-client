@@ -5,6 +5,7 @@ import Wrapper from "../components/Wrapper";
 import { useCreatePostMutation } from "../generated/graphql";
 import { useRouter } from "next/router";
 import { useIsAuth } from "../hooks/useIsAuth";
+import withApollo from "../utils/withApollo";
 
 interface CreatePostProps {}
 
@@ -58,4 +59,4 @@ const createPost: React.FC<CreatePostProps> = ({}) => {
   );
 };
 
-export default createPost;
+export default withApollo({ ssr: false })(createPost);

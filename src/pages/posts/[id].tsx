@@ -2,6 +2,7 @@ import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import EditDeletePostButtons from "../../components/EditDeletePostButtons";
 import { usePostQuery } from "../../generated/graphql";
+import withApollo from "../../utils/withApollo";
 
 interface PostProps {}
 
@@ -36,4 +37,4 @@ const Post: React.FC<PostProps> = ({}) => {
   );
 };
 
-export default Post;
+export default withApollo({ ssr: true })(Post);

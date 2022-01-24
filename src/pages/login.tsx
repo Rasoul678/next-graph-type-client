@@ -6,6 +6,7 @@ import Wrapper from "../components/Wrapper";
 import { useLoginMutation } from "../generated/graphql";
 import { toErrorMap } from "../utils/toErrorMap";
 import NextLink from "next/link";
+import withApollo from "../utils/withApollo";
 
 interface LoginProps {}
 
@@ -60,4 +61,4 @@ const Login: React.FC<LoginProps> = ({}) => {
   );
 };
 
-export default Login;
+export default withApollo({ ssr: false })(Login);

@@ -7,6 +7,7 @@ import {
   usePostQuery,
   useUpdatePostMutation,
 } from "../../../generated/graphql";
+import withApollo from "../../../utils/withApollo";
 
 interface EditPostProps {}
 
@@ -83,4 +84,4 @@ const EditPost: React.FC<EditPostProps> = ({}) => {
   );
 };
 
-export default EditPost;
+export default withApollo({ ssr: true })(EditPost);
