@@ -11,7 +11,7 @@ type LoadingState = "upvote-loading" | "downvote-loading" | "not-loading";
 
 const UpvoteSection: React.FC<UpvoteSectionProps> = ({ post }) => {
   const [loadingState, setLoadingState] = useState<LoadingState>("not-loading");
-  const [, vote] = useVoteMutation();
+  const [vote] = useVoteMutation();
 
   return (
     <Flex
@@ -30,8 +30,10 @@ const UpvoteSection: React.FC<UpvoteSectionProps> = ({ post }) => {
         onClick={async () => {
           setLoadingState("upvote-loading");
           await vote({
-            postId: post.id,
-            vote: 1,
+            variables: {
+              postId: post.id,
+              vote: 1,
+            },
           });
           setLoadingState("not-loading");
         }}
@@ -47,8 +49,10 @@ const UpvoteSection: React.FC<UpvoteSectionProps> = ({ post }) => {
         onClick={async () => {
           setLoadingState("downvote-loading");
           await vote({
-            postId: post.id,
-            vote: -1,
+            variables: {
+              postId: post.id,
+              vote: -1,
+            },
           });
           setLoadingState("not-loading");
         }}

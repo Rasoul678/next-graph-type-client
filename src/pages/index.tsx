@@ -1,31 +1,27 @@
-import { useState } from "react";
 import {
   Box,
   Button,
   Flex,
   Heading,
+  Link,
   Stack,
   Text,
-  Link,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { withUrqlClient } from "next-urql";
-import { usePostsQuery } from "../generated/graphql";
-import { createUrqlClient } from "../utils/createUrqlClient";
-import UpvoteSection from "../components/UpvoteSection";
 import EditDeletePostButtons from "../components/EditDeletePostButtons";
+import UpvoteSection from "../components/UpvoteSection";
+import { usePostsQuery } from "../generated/graphql";
 
 const Index = () => {
-  const [variables, setVariables] = useState({
-    limit: 10,
-    cursor: null as null | string,
+  const { data, loading, fetchMore, variables } = usePostsQuery({
+    variables: {
+      limit: 10,
+      cursor: null,
+    },
+    // notifyOnNetworkStatusChange: true, //! This will trigger the loading state.
   });
 
-  const [{ data, fetching }] = usePostsQuery({
-    variables,
-  });
-
-  if (!fetching && !data) {
+  if (!loading && !data) {
     return <Box>No Posts</Box>;
   }
 
@@ -43,7 +39,7 @@ const Index = () => {
           <Button bgColor="teal">New Post</Button>
         </NextLink>
       </Flex>
-      {!fetching && data ? (
+      {!loading && data ? (
         <Stack spacing={8} mx="auto" width="60%">
           {data?.posts.posts.map((post) =>
             !post ? null : (
@@ -85,13 +81,34 @@ const Index = () => {
       {data && data.posts.hasMore && (
         <Box textAlign="center" my={5}>
           <Button
-            onClick={() =>
-              setVariables({
-                limit: variables.limit,
-                cursor: data.posts.posts[data.posts.posts.length - 1].createdAt,
-              })
-            }
-            isLoading={fetching}
+            onClick={() => {
+              fetchMore({
+                variables: {
+                  limit: variables?.limit,
+                  cursor:
+                    data.posts.posts[data.posts.posts.length - 1].createdAt,
+                },
+                //! Method _1_ to fetch more data
+                // updateQuery: (previousValue, { fetchMoreResult }) => {
+                //   if (!fetchMoreResult) {
+                //     return previousValue;
+                //   }
+
+                //   return {
+                //     __typename: "Query",
+                //     posts: {
+                //       __typename: "PaginatedPosts",
+                //       hasMore: fetchMoreResult.posts.hasMore,
+                //       posts: [
+                //         ...previousValue.posts.posts,
+                //         ...fetchMoreResult.posts.posts,
+                //       ],
+                //     },
+                //   };
+                // },
+              });
+            }}
+            isLoading={loading}
             size="sm"
           >
             show more
@@ -102,4 +119,4 @@ const Index = () => {
   );
 };
 
-export default withUrqlClient(createUrqlClient, { ssr: true })(Index);
+export default Index;

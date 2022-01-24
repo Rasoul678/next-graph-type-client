@@ -1,6 +1,5 @@
 import { Box, Button, Heading } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
 import InputField from "../../../components/InputField";
 import Wrapper from "../../../components/Wrapper";
@@ -8,7 +7,6 @@ import {
   usePostQuery,
   useUpdatePostMutation,
 } from "../../../generated/graphql";
-import { createUrqlClient } from "../../../utils/createUrqlClient";
 
 interface EditPostProps {}
 
@@ -17,20 +15,20 @@ const EditPost: React.FC<EditPostProps> = ({}) => {
   const postId =
     typeof router.query.id === "string" ? parseInt(router.query.id) : -1;
 
-  const [{ data, fetching }] = usePostQuery({
-    pause: postId === -1,
+  const { loading, data } = usePostQuery({
+    skip: postId === -1,
     variables: {
       id: postId,
     },
   });
 
-  const [_, updatePost] = useUpdatePostMutation();
+  const [updatePost] = useUpdatePostMutation();
 
   if (!data) {
     return <Box>No post found :/</Box>;
   }
 
-  if (fetching) {
+  if (loading) {
     return <Box>Loading ...</Box>;
   }
 
@@ -45,14 +43,16 @@ const EditPost: React.FC<EditPostProps> = ({}) => {
           if (!values.text || !values.title) {
             return;
           }
-          
-          const { error } = await updatePost({
-            id: postId,
-            text: values.text,
-            title: values.title,
+
+          const { errors } = await updatePost({
+            variables: {
+              id: postId,
+              text: values.text,
+              title: values.title,
+            },
           });
 
-          if (!error) {
+          if (!errors) {
             router.back();
           }
         }}
@@ -83,4 +83,4 @@ const EditPost: React.FC<EditPostProps> = ({}) => {
   );
 };
 
-export default withUrqlClient(createUrqlClient, { ssr: true })(EditPost);
+export default EditPost;
