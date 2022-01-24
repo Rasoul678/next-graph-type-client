@@ -25,7 +25,16 @@ const EditDeletePostButtons: React.FC<EditDeletePostButtonsProps> = ({
         aria-label="Delete Post"
         size="sm"
         icon={<DeleteIcon color="coral" boxSize={4} />}
-        onClick={() => deletePost({ variables: { id } })}
+        onClick={() =>
+          deletePost({
+            variables: { id },
+            update: (cache) => {
+              cache.evict({
+                id: "Post:" + id,
+              });
+            },
+          })
+        }
       />
       <NextLink href="/posts/edit/[id]" as={`/posts/edit/${id}`}>
         <IconButton
